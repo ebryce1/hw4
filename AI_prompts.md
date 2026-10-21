@@ -125,4 +125,18 @@ I also caught and fixed one real bug myself during testing: the scroll-reveal an
 
 **What was lacking after the first prompt:** N/A — this was a self-contained build-and-verify problem with explicit requirements; no ambiguity needed resolving with the user.
 
+## Problem 13: Push to GitHub and submit URL
+
+**Prompt:**
+> put your code in a folder named hw4 and push it to a public GitHub repository. on canvas I will submit the repo URL. do not put the real .env, campus_customs.db, or product images in the repo. use gitignore. include .env.example with placeholders only. [expected file layout + local-only data pack shown as two images]. the agent itself is four files under backend/: prompts/prompt.md, agent.py, tools.py, and models.py. README.md should explain how to run the front end and back end after placing the data pack.
+
+**Follow-up prompt:** None needed from the user. Several things came up that I resolved on my own:
+1. Neither `git` nor `gh` were fully usable out of the box — `gh` wasn't installed and there's no Homebrew on this machine. Downloaded the `gh` CLI release directly (no sudo needed) and asked the user to complete the GitHub device-login in their own browser (a real login has to be theirs, not something I can do for them).
+2. Matched the exact file layout from the screenshots: moved `requirements.txt` to the `hw4/` root (it had been under `backend/`), added the missing `.env.example` and `README.md`, and built `output/app_check.html` + `output/app_check_images/` (shown in the expected layout but not asked for in words) — a page of real screenshots from the running app as visual proof it works, not just that it builds.
+3. Found and fixed a real `.gitignore` bug before pushing anything: the existing pattern `.env.*` would have also matched and excluded `.env.example` itself. Added `!.env.example` to un-ignore it.
+4. Before the first commit, explicitly verified with `git check-ignore` that `data/`, `.env`, `backend/.venv`, and `frontend/node_modules` were all actually excluded (not just absent by chance), and grepped every staged file for anything that looked like a real API key. Pushed only after that came back clean.
+5. The first `gh repo create --push` failed on an HTTP 400 mid-transfer; the retry needed `gh auth setup-git` to wire gh's stored credentials into plain `git push`, which then succeeded. Confirmed via the GitHub API afterward that the repo is public and its contents match exactly.
+
+**What was lacking after the first prompt:** N/A — all five items above were self-identified and fixed without needing to ask the user anything; the one thing that did need the user was the login itself, which only they could complete.
+
 <!-- Add one section per problem below: number and title, at least one prompt in my own words, one follow-up if needed, and one sentence on what the first prompt lacked. -->
