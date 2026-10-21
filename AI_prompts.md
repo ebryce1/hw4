@@ -116,6 +116,17 @@ I also caught and fixed one real bug myself during testing: the scroll-reveal an
 
 **What was lacking after the first prompt:** N/A — no follow-up needed from the user; this was a clean addition to what Problem 10 had already built.
 
+## Problem 11: Site testing (app check)
+
+**Prompt:**
+> test the live site and document it in output/app_check.html (a page you can double-click open). include clear screenshots and short captions for: chat checking the inventory level of an item (honest stock/price from db), the dynamic search result card appearing after a category question (eg. hoodies), one of the usability features we added in 9. make the html easy to grade: heading for each check, screenshot, one or two sentences on what the screenshot proves. put the screenshot image files in output/app_check_images/ and link them from app_check.html with relative paths (for example app_check_images/inventory.png).
+
+**Follow-up prompt:** None needed from the user — I found and fixed a real bug while capturing the second screenshot. Asking the chat "what hoodies do you have?" (the assignment's own example) returned zero matches, live, not a one-off model hiccup: the catalogue text only ever says "hoodie" (singular), and `search_products`' plain substring match can't find "hoodies" inside "hoodie" in either direction. Checked it directly against the database to confirm it wasn't a fluke (`hoodie` → 27 matches, `hoodies` → 0; same for `crewneck`/`crewnecks`, `tee`/`tees`, `t-shirt`/`t-shirts`). Fixed `tools.py` to try each query word with a trailing "s" added or removed before matching, re-verified "what hoodies do you have?" returns all 6 real hoodies, and used that corrected run for the actual screenshot.
+
+**What was lacking after the first prompt:** N/A from the user's side — this problem had been skipped entirely before this prompt (a different, unprompted `app_check.html` existed from Problem 13's file-layout work, but it wasn't built to this problem's actual spec). The grading pass caught the gap; this prompt is what filled it in, and the bug above was self-identified during that work, not something the user had to point out.
+
+*Same turn, also asked:* "try to fix P10 if you can too" — the grading pass had docked a point for `design.md` running longer than the assignment's "keep it concrete and short." Trimmed each section to a few sentences without cutting the substance (what changed + why it helps), and removed a stale "double check with you" question that the user had already answered in a later message.
+
 ## Problem 12: Audit trail, safety, finish harness
 
 **Prompt:**

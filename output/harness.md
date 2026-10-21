@@ -223,6 +223,13 @@ Five tools, all reading `data/campus_customs.db` directly, nothing from the mode
   `get_product_details` to return a declared Pydantic type (`ProductDetails`) instead of a loose
   `dict`, same reasoning as `StockLookup`.
 
+**Bug fixed in Problem 11's site-testing pass:** `search_products` matched query words as a plain
+substring, and the catalogue only ever writes "hoodie," never "hoodies" — so the single most
+obvious shopper query, "what hoodies do you have?", returned zero matches. `_variants()` in
+`tools.py` now tries each query word both as typed and with a trailing "s" added or removed before
+matching. Caught live while capturing `output/app_check.html`'s screenshots, not in a unit test —
+a reminder that "it compiles and the happy path works" isn't the same as actually using the app.
+
 ### Verified
 
 - Picked a real product with a mix of stock levels (`baseball-left-chest-crewneck`: XS and XL

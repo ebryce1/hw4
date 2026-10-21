@@ -119,10 +119,18 @@ def search_products(ctx: RunContext[AgentDeps], query: str) -> dict:
     every word, this tool automatically retries matching *any* word and sets `exact_match: false`
     on the broader results — say so honestly ("nothing exact, but here's close") rather than
     presenting a broadened result as if it were precisely what they asked for.
+
+    Also normalizes simple plurals (Problem 11 bug fix): the catalogue only ever writes "hoodie",
+    never "hoodies" — a plain substring check on the plural form matched nothing for the single
+    most obvious shopper query ("what hoodies do you have?"). Each query word is tried both as
+    typed and with a trailing "s" added or removed.
     """
     terms = [t for t in query.lower().split() if t]
     if not terms:
         return {"query": query, "exact_match": True, "results": []}
+
+    def _variants(term: str) -> list[str]:
+        return [term, term[:-1]] if term.endswith("s") else [term, term + "s"]
 
     with _get_db() as conn:
         rows = conn.execute("SELECT * FROM catalogue").fetchall()
@@ -139,7 +147,7 @@ def search_products(ctx: RunContext[AgentDeps], query: str) -> dict:
                         " ".join(json.loads(row["search_tags"])),
                     ]
                 ).lower()
-                hits = [term in haystack for term in terms]
+                hits = [any(v in haystack for v in _variants(term)) for term in terms]
                 if (all(hits) if require_all_terms else any(hits)):
                     found.append(_card(row, _sizes_for(conn, row["product_id"])))
                 if len(found) >= MAX_SEARCH_RESULTS:

@@ -43,7 +43,7 @@
     margin: 0 auto;
     padding: 2.5rem 1.5rem 4rem;
   }
-  .shot {
+  .check {
     background: #fff;
     border: 1px solid var(--line);
     border-radius: 10px;
@@ -51,26 +51,10 @@
     margin-bottom: 2.5rem;
     box-shadow: 0 4px 14px rgba(0, 53, 107, 0.08);
   }
-  .shot img {
-    width: 100%;
-    display: block;
-    border-bottom: 1px solid var(--line);
+  .check__head {
+    padding: 1.25rem 1.5rem 0;
   }
-  .shot__body {
-    padding: 1.25rem 1.5rem;
-  }
-  .shot__body h2 {
-    font-family: Georgia, serif;
-    color: var(--blue);
-    margin: 0 0 0.4rem;
-    font-size: 1.25rem;
-  }
-  .shot__body p {
-    margin: 0;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-  .tag {
+  .check__num {
     display: inline-block;
     background: var(--gold);
     color: var(--blue-dark);
@@ -81,6 +65,27 @@
     padding: 0.2rem 0.6rem;
     border-radius: 999px;
     margin-bottom: 0.6rem;
+  }
+  .check__head h2 {
+    font-family: Georgia, serif;
+    color: var(--blue);
+    margin: 0 0 0.9rem;
+    font-size: 1.3rem;
+  }
+  .check img {
+    width: 100%;
+    display: block;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .check__proof {
+    padding: 1.1rem 1.5rem 1.4rem;
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  .check__proof strong {
+    color: #1b1f27;
   }
   footer {
     text-align: center;
@@ -93,108 +98,65 @@
 <body>
 
 <header>
-  <h1>Campus Customs — App Check</h1>
+  <h1>Campus Customs — App Check (Problem 11)</h1>
   <p>
-    Screenshots of the running app, taken straight from the browser — proof it works end to end,
-    not just that the code compiles. See <a href="harness.md" style="color:#fff">harness.md</a>
-    for how it's built, <a href="design.md" style="color:#fff">design.md</a> for the visual pass,
-    and <a href="usability.md" style="color:#fff">usability.md</a> for the Problem 9 features.
+    Three checks of the live, running site: a chat lookup of a real inventory level, the dynamic
+    search-result cards that appear after a category question, and one Problem 9 usability
+    feature. See <a href="harness.md" style="color:#fff">harness.md</a> for how the system is
+    built.
   </p>
 </header>
 
 <main>
 
-  <div class="shot">
-    <img src="app_check_images/01-home.jpg" alt="Home page with a real photo of Harkness Tower as the hero background" />
-    <div class="shot__body">
-      <span class="tag">Problems 1–3, 10, 11</span>
-      <h2>Home page</h2>
-      <p>
-        A real, properly-licensed photo of Harkness Tower as the hero (Problem 11), Playfair
-        Display headings and a gold/navy palette (Problem 10), and the "Shop by style" tiles from
-        the original build (Problem 3). The bulldog mascot is peeking in at the bottom-left.
-      </p>
+  <div class="check">
+    <div class="check__head">
+      <span class="check__num">Check 1</span>
+      <h2>Chat: inventory level of an item</h2>
     </div>
+    <img src="app_check_images/inventory.jpg" alt="Chat asking how many XL are in stock for the Basic Hoodie Big Yale, with Handsome Dan replying 'Only 2 left in size XL. The price is $68.'" />
+    <p class="check__proof">
+      Asked the chat, on the Basic Hoodie Big Yale's own page, "how many XL do you have in stock,
+      and what's the price?" Handsome Dan replied <strong>"Only 2 left in size XL. The price is
+      $68"</strong> — which matches the page's own size grid shown behind the chat panel (XL:
+      Only 2 left) and the database exactly (<code>inventory</code>: XL quantity = 2;
+      <code>catalogue</code>: price = $68.00). Not a guess — the reply came from
+      <code>check_stock</code> querying the live database (Problem 6), not from the model's memory.
+    </p>
   </div>
 
-  <div class="shot">
-    <img src="app_check_images/02-products.jpg" alt="Products grid showing all 102 catalogue items as cards" />
-    <div class="shot__body">
-      <span class="tag">Problem 3</span>
-      <h2>Products grid</h2>
-      <p>
-        All 102 products from <code>campus_customs.db</code>, each a real card — image, name,
-        price, a short description — with a search box and a favorite heart (Problem 9) on every
-        card.
-      </p>
+  <div class="check">
+    <div class="check__head">
+      <span class="check__num">Check 2</span>
+      <h2>Dynamic search-result cards after a category question</h2>
     </div>
+    <img src="app_check_images/search-results.jpg" alt="Chat asked 'what hoodies do you have?' and six hoodie product cards appear live on the page itself, not just in the chat bubble" />
+    <p class="check__proof">
+      Asked "what hoodies do you have?" from the Home page. The agent searched the catalogue and
+      returned six real hoodies; the front end rendered them as full product cards
+      <strong>directly on the page</strong> (above the "Shop by style" section, not just as small
+      cards inside the chat bubble) — the Problem 7 API contract, where the agent's structured
+      <code>product_ids</code> become real, clickable catalogue cards. (This screenshot also
+      caught and proved a real bug: the catalogue only ever says "hoodie," never "hoodies," so a
+      plain substring search returned zero matches the first time this check was run. Fixed in
+      <code>tools.py</code> by normalizing simple plurals before matching — this screenshot is
+      the re-run after that fix.)
+    </p>
   </div>
 
-  <div class="shot">
-    <img src="app_check_images/03-product-detail.jpg" alt="Product detail page with large image, full description, sizes and stock, and similar items below" />
-    <div class="shot__body">
-      <span class="tag">Problems 3, 6, 9</span>
-      <h2>Product detail page</h2>
-      <p>
-        The single-item view from Problem 3: large image, full description, and real per-size
-        stock from <code>check_stock</code>'s database lookup (Problem 6) — note XS and XL
-        correctly marked sold out. "You might also like" (Problem 9) appears below, picking other
-        crewnecks by category, falling back to shared color when a category runs short.
-      </p>
+  <div class="check">
+    <div class="check__head">
+      <span class="check__num">Check 3</span>
+      <h2>Usability feature from Problem 9: Favorites</h2>
     </div>
-  </div>
-
-  <div class="shot">
-    <img src="app_check_images/04-about-alumni.jpg" alt="About page with the alumni cameo gallery and a vintage Woolsey Hall postcard" />
-    <div class="shot__body">
-      <span class="tag">Problems 10, 11</span>
-      <h2>About page: alumni gallery</h2>
-      <p>
-        Stylized illustrated cameo portraits (not photos, nobody shown wearing merchandise) of
-        three real Yale alumni, each captioned with their actual name and class year. The footer
-        shows a real c.1905 public-domain postcard of Woolsey Hall and a "Photo credits"
-        disclosure for every licensed photo used on the site.
-      </p>
-    </div>
-  </div>
-
-  <div class="shot">
-    <img src="app_check_images/05-favorites.jpg" alt="Favorites page showing one saved product" />
-    <div class="shot__body">
-      <span class="tag">Problem 9</span>
-      <h2>Favorites</h2>
-      <p>
-        A signed-in shopper's saved-for-later list, persisted to the database (not browser
-        storage) — reloads the same way on any device they log into.
-      </p>
-    </div>
-  </div>
-
-  <div class="shot">
-    <img src="app_check_images/06-chat.jpg" alt="Chat conversation asking for navy crewnecks, with Handsome Dan's reply, a matching product card in the chat bubble, and the same match appearing live on the page" />
-    <div class="shot__body">
-      <span class="tag">Problems 5–9</span>
-      <h2>The chat agent, live</h2>
-      <p>
-        Asked "do you have any crewnecks in navy?" — Handsome Dan (the PydanticAI agent) called
-        <code>search_products</code>, found a real match, quoted its real price and stock, and the
-        same card appeared live on the page itself (Problem 7), not just inside the chat bubble.
-        The shopper's existing favorite is still visible below, from the Favorites page they were
-        already on.
-      </p>
-    </div>
-  </div>
-
-  <div class="shot">
-    <img src="app_check_images/07-login.jpg" alt="Login page" />
-    <div class="shot__body">
-      <span class="tag">Problem 4</span>
-      <h2>Log in</h2>
-      <p>
-        Email + password login against PBKDF2-hashed passwords in <code>users</code> — verified
-        against both the seeded test account and freshly created ones.
-      </p>
-    </div>
+    <img src="app_check_images/usability-favorites.jpg" alt="Favorites page showing the Basic Hoodie Big Yale saved for a signed-in shopper" />
+    <p class="check__proof">
+      Signed in as the seeded test account, favorited the Basic Hoodie Big Yale from its product
+      page (the heart icon), then opened <code>/favorites</code>. The saved item is there,
+      <strong>persisted to the database</strong> (a new <code>favorites</code> table, not browser
+      storage) — so it would reload the same way on any device that shopper logs into. One of the
+      two front-end usability improvements built in Problem 9.
+    </p>
   </div>
 
 </main>
