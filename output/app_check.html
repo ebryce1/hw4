@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Campus Customs — App Check</title>
+<style>
+  :root {
+    --blue: #00356b;
+    --blue-dark: #00244a;
+    --gold: #c9a227;
+    --bg-cream: #faf6ec;
+    --line: #dde2ea;
+    --muted: #5d6675;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: var(--bg-cream);
+    color: #1b1f27;
+  }
+  header {
+    background: var(--blue);
+    color: #fff;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    border-bottom: 4px solid var(--gold);
+  }
+  header h1 {
+    font-family: Georgia, serif;
+    margin: 0 0 0.5rem;
+    font-size: 2.2rem;
+  }
+  header p {
+    margin: 0;
+    opacity: 0.9;
+    max-width: 40rem;
+    margin-inline: auto;
+  }
+  main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+  .shot {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 4px 14px rgba(0, 53, 107, 0.08);
+  }
+  .shot img {
+    width: 100%;
+    display: block;
+    border-bottom: 1px solid var(--line);
+  }
+  .shot__body {
+    padding: 1.25rem 1.5rem;
+  }
+  .shot__body h2 {
+    font-family: Georgia, serif;
+    color: var(--blue);
+    margin: 0 0 0.4rem;
+    font-size: 1.25rem;
+  }
+  .shot__body p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .tag {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--blue-dark);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    margin-bottom: 0.6rem;
+  }
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Campus Customs — App Check</h1>
+  <p>
+    Screenshots of the running app, taken straight from the browser — proof it works end to end,
+    not just that the code compiles. See <a href="harness.md" style="color:#fff">harness.md</a>
+    for how it's built, <a href="design.md" style="color:#fff">design.md</a> for the visual pass,
+    and <a href="usability.md" style="color:#fff">usability.md</a> for the Problem 9 features.
+  </p>
+</header>
+
+<main>
+
+  <div class="shot">
+    <img src="app_check_images/01-home.jpg" alt="Home page with a real photo of Harkness Tower as the hero background" />
+    <div class="shot__body">
+      <span class="tag">Problems 1–3, 10, 11</span>
+      <h2>Home page</h2>
+      <p>
+        A real, properly-licensed photo of Harkness Tower as the hero (Problem 11), Playfair
+        Display headings and a gold/navy palette (Problem 10), and the "Shop by style" tiles from
+        the original build (Problem 3). The bulldog mascot is peeking in at the bottom-left.
+      </p>
+    </div>
+  </div>
+
+  <div class="shot">
+    <img src="app_check_images/02-products.jpg" alt="Products grid showing all 102 catalogue items as cards" />
+    <div class="shot__body">
+      <span class="tag">Problem 3</span>
+      <h2>Products grid</h2>
+      <p>
+        All 102 products from <code>campus_customs.db</code>, each a real card — image, name,
+        price, a short description — with a search box and a favorite heart (Problem 9) on every
+        card.
+      </p>
+    </div>
+  </div>
+
+  <div class="shot">
+    <img src="app_check_images/03-product-detail.jpg" alt="Product detail page with large image, full description, sizes and stock, and similar items below" />
+    <div class="shot__body">
+      <span class="tag">Problems 3, 6, 9</span>
+      <h2>Product detail page</h2>
+      <p>
+        The single-item view from Problem 3: large image, full description, and real per-size
+        stock from <code>check_stock</code>'s database lookup (Problem 6) — note XS and XL
+        correctly marked sold out. "You might also like" (Problem 9) appears below, picking other
+        crewnecks by category, falling back to shared color when a category runs short.
+      </p>
+    </div>
+  </div>
+
+  <div class="shot">
+    <img src="app_check_images/04-about-alumni.jpg" alt="About page with the alumni cameo gallery and a vintage Woolsey Hall postcard" />
+    <div class="shot__body">
+      <span class="tag">Problems 10, 11</span>
+      <h2>About page: alumni gallery</h2>
+      <p>
+        Stylized illustrated cameo portraits (not photos, nobody shown wearing merchandise) of
+        three real Yale alumni, each captioned with their actual name and class year. The footer
+        shows a real c.1905 public-domain postcard of Woolsey Hall and a "Photo credits"
+        disclosure for every licensed photo used on the site.
+      </p>
+    </div>
+  </div>
+
+  <div class="shot">
+    <img src="app_check_images/05-favorites.jpg" alt="Favorites page showing one saved product" />
+    <div class="shot__body">
+      <span class="tag">Problem 9</span>
+      <h2>Favorites</h2>
+      <p>
+        A signed-in shopper's saved-for-later list, persisted to the database (not browser
+        storage) — reloads the same way on any device they log into.
+      </p>
+    </div>
+  </div>
+
+  <div class="shot">
+    <img src="app_check_images/06-chat.jpg" alt="Chat conversation asking for navy crewnecks, with Handsome Dan's reply, a matching product card in the chat bubble, and the same match appearing live on the page" />
+    <div class="shot__body">
+      <span class="tag">Problems 5–9</span>
+      <h2>The chat agent, live</h2>
+      <p>
+        Asked "do you have any crewnecks in navy?" — Handsome Dan (the PydanticAI agent) called
+        <code>search_products</code>, found a real match, quoted its real price and stock, and the
+        same card appeared live on the page itself (Problem 7), not just inside the chat bubble.
+        The shopper's existing favorite is still visible below, from the Favorites page they were
+        already on.
+      </p>
+    </div>
+  </div>
+
+  <div class="shot">
+    <img src="app_check_images/07-login.jpg" alt="Login page" />
+    <div class="shot__body">
+      <span class="tag">Problem 4</span>
+      <h2>Log in</h2>
+      <p>
+        Email + password login against PBKDF2-hashed passwords in <code>users</code> — verified
+        against both the seeded test account and freshly created ones.
+      </p>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Campus Customs — a class project. Full technical details in
+  <a href="harness.md">harness.md</a>. Every prompt used to build this is in
+  <a href="../AI_prompts.md">AI_prompts.md</a>.
+</footer>
+
+</body>
+</html>

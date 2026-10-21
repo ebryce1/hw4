@@ -1,0 +1,21 @@
+# Private / large data: never commit
+data/
+data.zip
+*.db
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+dist/
+
+# OS
+.DS_Store
